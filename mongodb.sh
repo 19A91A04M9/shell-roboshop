@@ -10,27 +10,24 @@ LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 
-
 mkdir -p $LOGS_FOLDER
 echo " Script started Execution at : $(date) " | tee -a $LOG_FILE
 
-if [ $USERID -ne 0 ]; then
-    echo -e "$R Error:: Please run this script as root user $N"
-    exit 1
-fi 
+if [ "$USERID" -ne 0 ]; then
+  echo -e "$R Error:: Please run this script as root user $N"
+  exit 1
+fi
 
-
-# VALIDATE FUNCTION
 VALIDATE() {
-    if [ $1 -eq 0 ]; then
-        echo -e " $2 ... $G SUCCESS $N"
-    else
-        echo -e " $2 ... $R FAILED $N"
-        exit 1
-    fi
+  if [ "$1" -eq 0 ]; then
+    echo -e " $2 ... $G SUCCESS $N"
+  else
+    echo -e " $2 ... $R FAILED $N"
+    exit 1
+  fi
 }
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo
+cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOG_FILE
 VALIDATE $? "Adding Mongodb repo"
 
 dnf install mongodb-org -y &>> $LOG_FILE
@@ -41,4 +38,3 @@ VALIDATE $? "Enabling Mongodb"
 
 systemctl start mongod &>> $LOG_FILE
 VALIDATE $? "Starting Mongodb"
-
