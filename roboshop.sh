@@ -1,5 +1,5 @@
 #!/bin/bash/
-AMI_ID="ami-09c813fb71547fc4f"
+AMI_ID="ami-0323c3dd2da7fb37d"
 SG_ID="sg-07d7ab7bf98a7423a"
 ZONE_ID="Z0002302TQJYC5DRC7BE"
 DOMAIN_NAME="dev86s.fun"
